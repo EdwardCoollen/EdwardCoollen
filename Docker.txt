@@ -1,0 +1,39 @@
+Crear carpetas con app + Dockerfile
+
+Creas un dockerfile con órdenes:
+
+FROM ubuntu:latest
+
+RUN apt-get update && \
+apt-get install -y apache2 php git
+RUN rm -rf /var/www/html/*
+
+EXPOSE 80
+
+RUN git clone https://github.com/aeimskei/basic-php-website /var/www/html
+
+CMD ["apache2ctl", "-D", "FOREGROUND"]
+
+
+------------------------------------------------------------------------------------------------
+docker build -t nombre1 .
+docker run -d -p 8030:80 --name nombre2 nombre1
+
+Puerto en el buscador: y estas dentro
+
+docker ps para listar
+
+docker stop nombre2
+
+docker rm nombre2
+
+------------------------------------------------------------------------------------------------
+Crear varios:
+Una vez tienes uno creado haces:
+	for ((i=0; i<20; i++)); do docker run -d -p $((8080+$i)):80 --name contenedor$i nombre1; done
+Para pararlos:
+	for ((i=0; i<20; i++)); do docker stop contenedor$i; done
+Para borrarlos:
+	for ((i=0; i<20; i++)); do docker rm contenedor$i; done
+	
+
